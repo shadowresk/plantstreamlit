@@ -1,36 +1,132 @@
+# import module
 import streamlit as st
-import pandas as pd
-import numpy as np
+ 
+# Title
+st.title("Semangat Belajar Streamlit, Orbitians!")
 
-st.title('Uber pickups in NYC')
+# Header
+st.header("Ini adalah Header, Orbitians!")
+ 
+# Subheader
+st.subheader("Ini adalah Sub-Header, Orbitians!")
 
-DATE_COLUMN = 'date/time'
-DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
-            'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
+# Text
+st.text("Hello Orbitians, hari ini kita akan belajar tentang penggunaan Streamlit.")
 
-@st.cache
-def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows)
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
-    data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
-    return data
+# Markdown
+st.markdown("# Mardown 1")
+st.markdown("## Mardown 2")
+st.markdown("### Mardown 3")
 
-data_load_state = st.text('Loading data...')
-data = load_data(10000)
-data_load_state.text("Done! (using st.cache)")
+# success
+st.success("Success")
+# info
+st.info("Information")
+# warning
+st.warning("Warning")
+# error
+st.error("Error")
 
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(data)
+# Write text
+st.write("Hari ini aku sangat senang sekali!! yuhuu yeay")
 
-st.subheader('Number of pickups by hour')
-hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))[0]
-st.bar_chart(hist_values)
+# Writing python inbuilt function range()
+st.write(range(20))
 
-# Some number in the range 0-23
-hour_to_filter = st.slider('hour', 0, 23, 17)
-filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
+# import Image from pillow to open images
+from PIL import Image
+img = Image.open("streamlit.jpg") 
 
-st.subheader('Map of all pickups at %s:00' % hour_to_filter)
-st.map(filtered_data)
+# display image using streamlit
+# width is used to set the width of an image
+st.image(img, width=200)
+
+# checkbox
+# check if the checkbox is checked
+# title of the checkbox is 'Show/Hide'
+if st.checkbox("Show/Hide"):
+# display the text if the checkbox returns True value
+	st.text("Hai, ini penggunaan checkbox")
+
+# radio button
+# first argument is the title of the radio button
+# second argument is the options for the ratio button
+status = st.radio("Pilih Program: ", ('Gen Z', 'Mastery'))
+
+# conditional statement to print
+# Male if male is selected else print female
+# show the result using the success function
+if (status == 'Gen Z'):
+	st.success("Gen Z")
+else:
+	st.success("Mastery")
+
+# Selection box
+# first argument takes the titleof the selectionbox
+# second argument takes options
+domain = st.selectbox("Pembagian Coach Domain AI di Orbit: ",
+					['Data Science', 'NLP', 'CV', 'Technical'])
+
+# print the selected hobby
+st.write("Domain Kamu adalah: ", domain)
+
+# Multiselect
+# first argument takes the titleof the selectionbox
+# second argument takes options
+domain = st.multiselect("Pembagian Coach Domain AI di Orbit: ", 
+	['Data Science', 'NLP', 'CV', 'Technical'])
+
+# print the selected hobby
+st.write("Domain Kamu ada", len(domain), 'domain')
+
+# Create a simple button that does nothing
+st.button("Click me for no reason")
+
+# Create a button, that when clicked, shows a text
+if(st.button("About")):
+	st.text("Welcome To Orbitian!! :))")
+
+# Text Input
+# save the input text in the variable 'name'
+# first argument shows the title of the text input box
+# second argument displays a default text inside the text input area
+name = st.text_input("Enter Your name", "Type Here ...")
+
+# display the name when the submit button is clicked
+# .title() is used to get the input text string
+if(st.button('Submit')):
+	result = name.title()
+	st.success(result)
+
+# slider
+# first argument takes the title of the slider
+# second argument takes the starting of the slider
+# last argument takes the end number
+level = st.slider("Select the level", 1, 5)
+
+# print the level
+# format() is used to print value
+# of a variable at a specific position
+st.text('Selected: {}'.format(level))
+
+# INPUT TEXT
+st.text_input("Enter your name", "")  # Default Value
+
+# NUMBER INPUT
+# 0.0 Start
+# 100.0 End
+# 99.0 Default Value
+st.number_input("Enter a number", 0.0, 100.0, 99.0)
+
+# TEXT AREA
+st.text_area("Enter a Message", "")
+
+# INPUT DATE
+st.date_input("Enter Date")
+
+# TIME INPUT
+st.time_input("Enter Time")
+
+# FILE UPLOADER
+
+st.file_uploader("Upload file", type=["csv", "txt"])
